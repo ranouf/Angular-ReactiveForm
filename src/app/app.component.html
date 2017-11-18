@@ -5,11 +5,20 @@
     </mat-card-title>
     <mat-card-content>
       <mat-input-container>
-        <input style="width:350px" [ngClass]="{'error': isValid('firstName')}" matInput placeholder="First Name" formControlName="firstName">
+        <input [ngClass]="{'error': isValid('firstName')}" matInput placeholder="First Name" formControlName="firstName">
       </mat-input-container>
+
+      <div formArrayName="emails" *ngFor="let email of emails.controls; let i = index;">
+        <div [formGroupName]="i">
+          <mat-input-container>
+            <input formControlName="email" matInput placeholder="Email">
+          </mat-input-container>
+        </div>
+      </div>
+      <button type="button" mat-raised-button color="accent" (click)="addItem()">Add</button>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" [disabled]="!this.form.valid">Register</button>
+      <button mat-raised-button color="primary" [disabled]="!this.form.valid">Register</button>
     </mat-card-actions>
   </mat-card>
 </form>
