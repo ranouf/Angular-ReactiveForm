@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-card>
     <mat-card-title>
-      Welcome to {{title}}!
+      Welcome!
     </mat-card-title>
     <mat-card-content>
       <mat-input-container>
@@ -11,11 +11,24 @@
       <div formArrayName="emails" *ngFor="let email of emails.controls; let i = index;">
         <div [formGroupName]="i">
           <mat-input-container>
+            <button mat-button *ngIf="isItemFilled(i)" matSuffix mat-icon-button aria-label="Clear" (click)="clear(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-button *ngIf="!isItemFilled(i)" matSuffix mat-icon-button></button>
             <input formControlName="email" matInput placeholder="Email">
+            <mat-error *ngIf="isEmailValid(i)">
+              Please enter a valid email address
+            </mat-error>
+            <mat-icon matPrefix>email</mat-icon>
           </mat-input-container>
+          <button type="button" *ngIf="i > 0" mat-raised-button color="accent" (click)="deleteItem(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </div>
-      <button type="button" mat-raised-button color="accent" (click)="addItem()">Add</button>
+      <button type="button" mat-raised-button color="accent" (click)="addItem()">
+        <mat-icon>add</mat-icon>
+      </button>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" [disabled]="!this.form.valid">Register</button>
