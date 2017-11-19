@@ -23,7 +23,16 @@ export class AppComponent {
     this.buildForm();
   }
 
-  buildForm(): any {
+  fillForm(): void {
+    this.form.patchValue({
+      firstName: 'test',
+    });
+    this.form.controls['emails'] = this.fb.array([]);
+    this.addItem(<Email>{ id: 1, recipient: 'test1@test.com' });
+    this.addItem(<Email>{ id: 2, recipient: 'test2@test.com' });
+  }
+
+  buildForm(): void {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       emails: this.fb.array([])
@@ -31,15 +40,15 @@ export class AppComponent {
     this.addItem();
   }
 
-  createItem(): FormGroup {
+  createItem(email: Email = null): FormGroup {
     return this.fb.group({
-      // id: null,
-      email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
+      id: email ? email.id : null,
+      recipient: [email ? email.recipient : null, [Validators.required, Validators.pattern(EMAIL_REGEX)]],
     });
   }
 
-  addItem(): void {
-    this.emails.push(this.createItem());
+  addItem(email: Email = null): void {
+    this.emails.push(this.createItem(email));
   }
 
   deleteItem(index: number): void {
@@ -67,4 +76,9 @@ export class AppComponent {
   isValid(control) {
     return this.form.controls[control].invalid && this.form.controls[control].touched;
   }
+}
+
+export class Email {
+  public id: number;
+  public recipient: string;
 }

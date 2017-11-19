@@ -15,7 +15,7 @@
               <mat-icon>close</mat-icon>
             </button>
             <button mat-button *ngIf="!isItemFilled(i)" matSuffix mat-icon-button></button>
-            <input formControlName="email" matInput placeholder="Email">
+            <input formControlName="recipient" matInput placeholder="Email">
             <mat-error *ngIf="isEmailValid(i)">
               Please enter a valid email address
             </mat-error>
@@ -32,6 +32,7 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" [disabled]="!this.form.valid">Register</button>
+      <button type="button" mat-raised-button color="warn" (click)="fillForm()">Fill Form</button>
     </mat-card-actions>
   </mat-card>
 </form>
